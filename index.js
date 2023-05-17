@@ -49,14 +49,12 @@ async function run() {
       const result = await bookingCollection.find().toArray();
       res.send(result);
     })
-
-    //TODO
+    
     app.get('/myBookings/:email', async (req, res) =>{
-      console.log(req.params.email);
+      //console.log(req.params.email);
+      const email =req.params.email
       const result = await bookingCollection
-      .find({
-        email: req.params.email,
-      })
+      .find({ email: email })
       .toArray();
       res.send(result);
     })
@@ -67,6 +65,14 @@ async function run() {
       const result = await bookingCollection.insertOne(bookings);
       res.send(result);
     });
+
+    app.delete('/allBookings/:id', async (req, res) =>{
+      const id = req.params.id;
+      //console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await bookingCollection.deleteOne(query);
+      res.send(result);
+    })
 
 
     // Send a ping to confirm a successful connection
